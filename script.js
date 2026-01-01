@@ -1,4 +1,4 @@
-// === Custom Notifikasi Sistem ===
+// === Custom Notification System ===
 function showNotification(message, type = 'info', title = '', isPasswordReset = false) {
     const container = document.getElementById('notificationContainer');
 
@@ -40,11 +40,11 @@ function closeNotification() {
     container.classList.remove('active');
     document.removeEventListener('keydown', handleNotificationKey);
 
-    // Jika notifikasi untuk reset password, maka kembali ke form login
+    //Jika notifikasi untuk reset password, maka kembali ke form login 
     const modal = container.querySelector('.notification-modal');
     if (modal && modal.dataset.resetPassword === 'true') {
         showForm(document.getElementById('loginForm'));
-        // Reset forgot password steps
+        // Reset Lupa Password step
         document.getElementById('forgotStep1').style.display = 'block';
         document.getElementById('forgotStep2').style.display = 'none';
         document.getElementById('forgotStep3').style.display = 'none';
@@ -52,18 +52,18 @@ function closeNotification() {
 }
 
 function handleNotificationKey(e) {
-    // Hanya akktif jika notifikasi tampil
+    // Hanya tangani jika notifikasi aktif
     const container = document.getElementById('notificationContainer');
     if (!container.classList.contains('active')) return;
 
     if (e.key === 'Escape' || e.key === 'Enter') {
         e.preventDefault(); // Prevent default action
-        e.stopPropagation(); // Stop event from bubbling
+        e.stopPropagation(); // Stop event dari bubbling
         closeNotification();
     }
 }
 
-// Masukkan tahun saat ini di footer
+// Tampilkan tahun saat ini di footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
 
 // DOM Elements
@@ -95,15 +95,15 @@ let otpEmail = null;
 
 // --- Navigasi Fungsi ---
 function showForm(form) {
-    // Sembunyikan semua form
+    // Hilangkan semua form
     loginForm.classList.remove('active');
     registerForm.classList.remove('active');
     forgotForm.classList.remove('active');
     // Tampilkan form yang diminta
     form.classList.add('active');
-    // Bersihkan error
+    // Bersihkan error 
     clearErrors();
-    // Bersihkan input (Reset semua form)
+    // Bersihkan Input (Reset sesmua form)
     loginForm.reset();
     registerForm.reset();
     forgotForm.reset();
@@ -141,7 +141,7 @@ function getUsers() {
 
 function saveUser(user) {
     const users = getUsers();
-    // Menambahkan properti hasLoggedIn untuk melacak apakah user sudah pernah login
+    // Tambahkan properti hasLoggedIn untuk user baru
     user.hasLoggedIn = false;
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
@@ -163,7 +163,7 @@ function updateUserPassword(email, newPassword) {
     return false;
 }
 
-// --- Validation Helpers ---
+// --- Validasi Helpers ---
 function isValidEmail(email) {
     return String(email)
         .toLowerCase()
@@ -180,7 +180,7 @@ btnRegister.addEventListener('click', () => {
 
     const emailInput = document.getElementById('regEmail');
 
-    // NATIVE VALIDATION TRIGGER
+    // Gunakan reportValidity untuk validasi bawaan browser
     if (!emailInput.reportValidity()) {
         return;
     }
@@ -189,7 +189,7 @@ btnRegister.addEventListener('click', () => {
         registerError.innerText = "Nama wajib diisi!";
         return;
     }
-    
+   
     if (!email || !isValidEmail(email)) {
        
     }
@@ -240,7 +240,7 @@ btnLogin.addEventListener('click', () => {
         const greeting = user.hasLoggedIn ? "Selamat datang kembali," : "Selamat datang,";
         showNotification(`${greeting}<br><strong>${user.name}</strong>!`, 'success');
 
-        // Tandai user jika baru pertama kali login
+        // MarkTandai user jika ini adalah login pertama kali
         if (!user.hasLoggedIn) {
             user.hasLoggedIn = true;
             // Update user di localStorage
@@ -259,11 +259,11 @@ btnLogin.addEventListener('click', () => {
     }
 });
 
-// --- Lupa Password Elements ---
+// ---Forgot Password Element ---
 const forgotStep3 = document.getElementById('forgotStep3');
 const btnVerifyOTP = document.getElementById('btnVerifyOTP');
 
-// --- Lupa Password Logic ---
+// --- Forgot Password Logic ---
 btnSendCode.addEventListener('click', () => {
     const email = document.getElementById('forgotEmail').value;
 
@@ -316,7 +316,7 @@ btnSendCode.addEventListener('click', () => {
         });
 });
 
-// Step 2: Verifikasi OTP
+// Step 2: Verify OTP
 btnVerifyOTP.addEventListener('click', () => {
     const inputCode = document.getElementById('otpCode').value;
 
@@ -327,7 +327,7 @@ btnVerifyOTP.addEventListener('click', () => {
         return;
     }
 
-    // OTP Benar -> Bersihkan error dan tampilkan sukses
+    // OTP Benar  -> Bersihkan error dan tampilkan sukses
     forgotError.innerText = "";
     forgotSuccess.innerText = "Kode benar! Silahkan buat password baru.";
     document.getElementById('forgotSubtitle').innerText = "Buat password baru untuk akun anda.";
@@ -360,13 +360,13 @@ btnResetPassword.addEventListener('click', () => {
     const success = updateUserPassword(otpEmail, newPassword);
     if (success) {
         showNotification('Password berhasil diubah!<br>Silahkan login.', 'success', '', true);
-        // Sesudah notifikasi ditutup, form kembali ke login
+
     } else {
         forgotError.innerText = "Terjadi kesalahan sistem.";
     }
 });
 
-// --- Helper: Trigger Button untuk Enter Key ---
+// --- Helper: Trigger Button Click untuk Enter Key ---
 function addEnterListener(inputId, buttonId) {
     const input = document.getElementById(inputId);
     const button = document.getElementById(buttonId);
@@ -380,7 +380,7 @@ function addEnterListener(inputId, buttonId) {
     }
 }
 
-// --- Tambahkan Enter Key Listener ---
+// Terapkan ke semua form input
 addEnterListener("loginEmail", "btnLogin");
 addEnterListener("loginPassword", "btnLogin");
 
@@ -397,11 +397,11 @@ addEnterListener("confirmPassword", "btnResetPassword");
 const inputs = document.querySelectorAll('input');
 
 inputs.forEach(input => {
-    // 1. Sembunyikan popup validasi bawaan dan tampilkan custom bubble
+    // 1. Sembunyikan popup bawaan browser dan tampilkan custom bubble
     input.addEventListener('invalid', (e) => {
-        e.preventDefault(); // STOP popup default browser
+        e.preventDefault(); // STOP the native browser popup
 
-        // Animasi shake pada input
+        // Input getar untuk feedback
         input.classList.add('input-error-shake');
         setTimeout(() => input.classList.remove('input-error-shake'), 400);
 
@@ -434,7 +434,7 @@ function showCustomBubble(input, message) {
 
     bubble.style.top = (input.offsetTop + input.offsetHeight) + "px";
     bubble.style.left = input.offsetLeft + "px";
-    bubble.style.width = (input.offsetWidth - 20) + "px"; // Slightly smaller width
+    bubble.style.width = (input.offsetWidth - 20) + "px"; // Lebar sedikit lebih kecil dari input
 
     // Simpan referensi bubble pada input
     input.activeBubble = bubble;
