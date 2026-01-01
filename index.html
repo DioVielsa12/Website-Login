@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("MAaPjOZB3y4d_bJVb");
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <!-- Login Form -->
+        <form id="loginForm" class="form active">
+            <h3>Login Disini</h3>
+
+            <label for="loginEmail">Email</label>
+            <input type="email" placeholder="Email" id="loginEmail" required>
+
+            <label for="loginPassword">Password</label>
+            <input type="password" placeholder="Password" id="loginPassword">
+
+            <div class="forgot-pass" id="btnToForgot">Lupa Password?</div>
+
+            <button type="button" id="btnLogin">Masuk</button>
+            <div class="social">
+                <div class="go" id="btnToRegisterFromLogin">Belum punya akun? Daftar</div>
+            </div>
+            <p id="loginError" class="error-msg"></p>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="form">
+            <h3>Daftar Akun</h3>
+
+            <label for="regName">Nama (Wajib)</label>
+            <input type="text" placeholder="Nama Lengkap" id="regName">
+
+            <label for="regEmail">Email (Wajib)</label>
+            <input type="email" placeholder="Email" id="regEmail" required>
+
+            <label for="regPassword">Password</label>
+            <input type="password" placeholder="Password" id="regPassword">
+
+            <button type="button" id="btnRegister">Daftar</button>
+            <div class="social">
+                <div class="go" id="btnToLoginFromRegister">Sudah punya akun? Login</div>
+            </div>
+            <p id="registerError" class="error-msg"></p>
+        </form>
+
+        <!-- Lupa Password Form -->
+        <form id="forgotForm" class="form">
+            <h3>Lupa Password</h3>
+            <p class="subtitle" id="forgotSubtitle">Masukkan email anda untuk menerima kode OTP.</p>
+
+            <div id="forgotStep1">
+                <label for="forgotEmail">Email</label>
+                <input type="email" placeholder="Email Terdaftar" id="forgotEmail" required>
+                <button type="button" id="btnSendCode">Kirim Kode</button>
+            </div>
+
+            <div id="forgotStep2" style="display: none;">
+                <label for="otpCode">Kode OTP (6 Digit)</label>
+                <input type="text" placeholder="Masukkan Kode dari Email" id="otpCode" maxlength="6">
+                <button type="button" id="btnVerifyOTP">Verifikasi Kode</button>
+            </div>
+
+            <div id="forgotStep3" style="display: none;">
+                <label for="newPassword">Password Baru</label>
+                <input type="password" placeholder="Password Baru" id="newPassword">
+
+                <label for="confirmPassword">Konfirmasi Password</label>
+                <input type="password" placeholder="Ulangi Password Baru" id="confirmPassword">
+
+                <button type="button" id="btnResetPassword">Reset Password</button>
+            </div>
+
+            <div class="social">
+                <div class="go" id="btnToLoginFromForgot">Kembali ke Login</div>
+            </div>
+            <p id="forgotError" class="error-msg"></p>
+            <p id="forgotSuccess" class="success-msg"></p>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Created by Dio Vielsa Alkafi &copy; <span id="currentYear"></span></p>
+    </footer>
+
+    <!-- Modal Notifikasi Custom -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
