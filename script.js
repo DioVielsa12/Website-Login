@@ -1,5 +1,5 @@
 // === Custom Notification System ===
-function showNotification(message, type = 'info', title = '', isPasswordReset = false) {
+function showNotification(message, type = 'info', title = '', isPasswordReset = false, isRegistration = false) {
     const container = document.getElementById('notificationContainer');
 
     // Terapkan judul default
@@ -19,7 +19,7 @@ function showNotification(message, type = 'info', title = '', isPasswordReset = 
     // Buat notifikasi HTML
     container.innerHTML = `
         <div class="notification-overlay" onclick="closeNotification()"></div>
-        <div class="notification-modal" data-reset-password="${isPasswordReset}">
+        <div class="notification-modal" data-reset-password="${isPasswordReset}" data-registration="${isRegistration}">
             <div class="notification-icon ${type}">
                 ${icons[type] || icons.info}
             </div>
@@ -40,14 +40,20 @@ function closeNotification() {
     container.classList.remove('active');
     document.removeEventListener('keydown', handleNotificationKey);
 
-    //Jika notifikasi untuk reset password, maka kembali ke form login 
     const modal = container.querySelector('.notification-modal');
+
+    //Jika notifikasi untuk reset password, maka kembali ke form login 
     if (modal && modal.dataset.resetPassword === 'true') {
         showForm(document.getElementById('loginForm'));
         // Reset Lupa Password step
         document.getElementById('forgotStep1').style.display = 'block';
         document.getElementById('forgotStep2').style.display = 'none';
         document.getElementById('forgotStep3').style.display = 'none';
+    }
+
+    // Jika notifikasi untuk registrasi berhasil, kembali ke form login
+    if (modal && modal.dataset.registration === 'true') {
+        showForm(document.getElementById('loginForm'));
     }
 }
 
@@ -189,9 +195,9 @@ btnRegister.addEventListener('click', () => {
         registerError.innerText = "Nama wajib diisi!";
         return;
     }
-   
+
     if (!email || !isValidEmail(email)) {
-       
+
     }
 
     if (!password) {
@@ -212,11 +218,7 @@ btnRegister.addEventListener('click', () => {
     const newUser = { name, email, password };
     saveUser(newUser);
 
-    showNotification(`Akun berhasil dibuat untuk <strong>${name}</strong>!<br>Silahkan login.`, 'success');
-    setTimeout(() => {
-        closeNotification();
-        showForm(loginForm);
-    }, 1500);
+    showNotification(`Akun berhasil dibuat untuk <strong>${name}</strong>!<br>Silahkan login.`, 'success', '', false, true);
 });
 
 // --- Login Logic ---
